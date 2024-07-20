@@ -1,14 +1,17 @@
 import { envs } from './config';
+import { MongoDB } from './shared/insfrastructure/persistence';
 import { AppRouter } from './shared/insfrastructure/server/router';
 import { Server } from './shared/insfrastructure/server/server';
 
 
-(async () => {
-  main();
-})();
+const main = async () => {
 
+  /* MongoDB */
+  await MongoDB.connect({
+    mongoUri: envs.MONGODB_URI,
+    dbName: envs.MONGODB_NAME,
+  });
 
-function main() {
 
   // Avoid hidden dependencies
   const server = new Server({
@@ -21,3 +24,9 @@ function main() {
   server.start();
 
 }
+
+
+
+(async () => {
+  main();
+})();

@@ -1,4 +1,15 @@
-# Skeleton Awilix + Some deps
+# Skeleton Awilix + MongoDB + Mongoose + Some deps
+
+
+## RUN:
+- --- Run with Docker:
+
+```sh
+docker compose -f docker-compose.dev.yml up --build -d
+
+docker compose -f docker-compose.dev.yml down -v
+```
+
 
 ## Skeleton Setup
 
@@ -15,7 +26,7 @@
   `pnpm add -D cors`
   `pnpm add -D @types/cors`
 
-  `pnpm add -D awilix`
+  `pnpm add -D awilix mongoose`
 
 
 - --- Iniciamos el    tsconfig.json
