@@ -1,7 +1,11 @@
+import { createServer } from 'http';
+
 import { envs } from './config';
 import { MongoDB } from './shared/insfrastructure/persistence';
 import { AppRouter } from './shared/insfrastructure/server/router';
 import { Server } from './shared/insfrastructure/server/server';
+import { IoService } from './shared/application/wss.service';
+
 
 
 const main = async () => {
@@ -17,13 +21,23 @@ const main = async () => {
   const server = new Server({
     port: envs.PORT,
     // public_path: envs.PUBLIC_PATH,
-    router: AppRouter.routes,
   });
 
 
-  server.start();
+  // server.start(); // only express server
 
-}
+
+  ///* WSS: require a http server != express ---------
+  const httpServer = createServer(server.app);
+  IoService.initIo({ server: httpServer });
+
+  server.setRoutes(AppRouter.routes); // after initialize WSS
+
+  httpServer.listen(envs.PORT, () => {
+    console.log(`Server is running on port ${envs.PORT}`);
+  });
+
+};
 
 
 
