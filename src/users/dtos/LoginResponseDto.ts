@@ -1,6 +1,7 @@
 type UserResponseDto = {
   fullName: string;
   username: string;
+  uid: string;
   profilePic?: string;
 };
 
@@ -20,6 +21,7 @@ export class LoginResponseDto {
       fullName: user.fullName,
       username: user.username,
       profilePic: user.profilePic,
+      uid: user.uid,
     });
   }
 }

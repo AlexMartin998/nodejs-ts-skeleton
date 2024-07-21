@@ -32,6 +32,7 @@ export class UsersServiceImpl implements UsersService {
         fullName: user.fullName,
         username: user.username,
         profilePic: user.profilePic,
+        uid: user._id,
       },
     });
   }
@@ -56,6 +57,7 @@ export class UsersServiceImpl implements UsersService {
         fullName: user.fullName,
         username: user.username,
         profilePic: user.profilePic,
+        uid: user._id,
       },
     });
   }
