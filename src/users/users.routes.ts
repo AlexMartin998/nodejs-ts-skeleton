@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { diContainer } from '@/shared/insfrastructure/config';
+import { diContainer } from '@/shared/infrastructure/config';
 import type { UsersController } from './users.controller';
 
 export class UsersRoutes {

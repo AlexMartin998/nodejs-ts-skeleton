@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 
 import { Nullable } from '@/shared/domain';
 import { JwtConstants } from '../constants';
-import { envs } from '../insfrastructure/config';
+import { envs } from '../infrastructure/config';
 
 export abstract class JwtFacade {
   static async generateToken(

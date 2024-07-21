@@ -1,5 +1,5 @@
 import { InvalidArgumentError, Nullable } from '@/shared/domain';
-import { handleDtoValidation } from '@/shared/insfrastructure/utils';
+import { handleDtoValidation } from '@/shared/infrastructure/utils';
 import { z } from 'zod';
 
 const RegisterUserSchema = z

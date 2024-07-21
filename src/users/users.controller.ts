@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { handleRestExceptions } from '@/shared/insfrastructure/server/utils';
+import { handleRestExceptions } from '@/shared/infrastructure/server/utils';
 import { LoginDto, RegisterUserDto } from './dtos';
 import { UsersService } from './services';
 

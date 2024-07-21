@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 import { InvalidArgumentError, Nullable } from '@/shared/domain';
-import { handleDtoValidation } from '@/shared/insfrastructure/utils';
+import { handleDtoValidation } from '@/shared/infrastructure/utils';
 
 const LoginDtoSchema = z.object({
   username: z.string().min(1, { message: 'Missing username' }),
