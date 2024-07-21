@@ -1,13 +1,16 @@
-import { CreateMessageDto, UpdMessageDto } from '@/messages/dtos';
+import { CreateMessageDto, MessageDto, UpdMessageDto } from '@/messages/dtos';
+import { PaginationDto, PaginationResponseDto } from '@/shared/dtos';
 
 export interface MessageService {
-  create(createDto: CreateMessageDto): Promise<void>;
+  create(createDto: CreateMessageDto): Promise<MessageDto>;
 
-  update(id: string, updDto: UpdMessageDto): Promise<void>;
+  findAll(
+    paginationDto: PaginationDto
+  ): Promise<PaginationResponseDto<MessageDto>>;
 
-  findAll(): Promise<void>;
+  findOne(id: string): Promise<MessageDto>;
 
-  findOne(id: string): Promise<void>;
+  update(id: string, updDto: UpdMessageDto): Promise<MessageDto>;
 
   delete(id: string): Promise<void>;
 }

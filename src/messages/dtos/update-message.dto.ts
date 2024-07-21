@@ -6,7 +6,11 @@ import { CreateMessageSchema } from './create-message.dto';
 const UpdMessageSchema = CreateMessageSchema.partial();
 
 export class UpdMessageDto {
-  private constructor() {}
+  private constructor(
+    public readonly sender?: string,
+    public readonly receiver?: string,
+    public readonly message?: string
+  ) {}
 
   static create(props: Record<string, any>): Nullable<UpdMessageDto> {
     const validationResult = UpdMessageSchema.safeParse(props);
@@ -16,7 +20,7 @@ export class UpdMessageDto {
       throw new InvalidArgumentError(errors);
     }
 
-    const {} = validationResult.data;
-    return new UpdMessageDto();
+    const { sender, receiver, message } = validationResult.data;
+    return new UpdMessageDto(sender, receiver, message);
   }
 }

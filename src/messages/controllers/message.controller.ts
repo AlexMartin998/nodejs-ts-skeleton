@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 
+import { PaginationDto } from '@/shared/dtos';
 import { handleRestExceptions } from '@/shared/infrastructure/server/utils';
 import { CreateMessageDto, UpdMessageDto } from '../dtos';
 import { MessageService } from '../services';
@@ -19,7 +20,10 @@ export class MessageController {
 
   async findAll(req: Request, res: Response) {
     try {
-      const messages = await this.messageService.findAll();
+      const { page = 1, limit = 10 } = req.query;
+      const paginationDto = PaginationDto.create(+page, +limit);
+      const messages = await this.messageService.findAll(paginationDto!);
+
       return res.status(200).json(messages);
     } catch (error) {
       handleRestExceptions(error, res);

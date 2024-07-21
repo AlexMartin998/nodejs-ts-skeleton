@@ -21,6 +21,12 @@ export const handleRestExceptions = (error: any, res: Response) => {
     }
   }
 
+  // handle wrong ID mongo format
+  if (error instanceof mongoose.Error.CastError) {
+    return res
+      .status(400)
+      .json({ errors: [`Invalid ID format: ${error.value}`] });
+  }
   if (error instanceof mongoose.Error.ValidationError) {
     return res.status(400).json({ errors: error.errors });
   }
