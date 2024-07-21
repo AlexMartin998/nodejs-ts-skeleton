@@ -2,7 +2,7 @@ import { BadRequestError } from '@/shared/domain';
 import { InternalServerError } from '@/shared/domain/errors/internal-server.error';
 import { BcryptFacade, JwtFacade } from '@/shared/facades';
 import { LoginDto, LoginResponseDto, RegisterUserDto } from '../dtos';
-import { type UserModel } from '../models/user.model';
+import { UserModel } from '../models/user.model';
 import { UsersService } from './users.service';
 
 export class UsersServiceImpl implements UsersService {
@@ -36,8 +36,28 @@ export class UsersServiceImpl implements UsersService {
     });
   }
 
-  login(loginDto: LoginDto): Promise<LoginResponseDto> {
-    throw new Error('Method not implemented.');
+  async login(loginDto: LoginDto): Promise<LoginResponseDto> {
+    const user = await this.userModel.findOne({ username: loginDto.username });
+    const matchPassword = BcryptFacade.compare(
+      loginDto.password,
+      user?.password || ''
+    );
+    if (!user || !matchPassword)
+      throw new BadRequestError(
+        'There was a problem logging in. Check your email and password or create an account.'
+      );
+
+    const token = await JwtFacade.generateToken({ id: user.id });
+    if (!token) throw new InternalServerError('Error while creating JWT');
+
+    return LoginResponseDto.create({
+      accessToken: token,
+      user: {
+        fullName: user.fullName,
+        username: user.username,
+        profilePic: user.profilePic,
+      },
+    });
   }
 
   renewToken(refreshToken: string): Promise<LoginResponseDto> {

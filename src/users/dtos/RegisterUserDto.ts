@@ -1,4 +1,5 @@
 import { InvalidArgumentError, Nullable } from '@/shared/domain';
+import { handleDtoValidation } from '@/shared/insfrastructure/utils';
 import { z } from 'zod';
 
 const RegisterUserSchema = z
@@ -31,7 +32,7 @@ export class RegisterUserDto {
     const validationResult = RegisterUserSchema.safeParse(props);
 
     if (!validationResult.success) {
-      const errors = validationResult.error.issues.map(issue => issue.message);
+      const errors = handleDtoValidation(validationResult.error.issues);
       throw new InvalidArgumentError(errors);
     }
 

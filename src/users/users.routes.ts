@@ -15,6 +15,7 @@ export class UsersRoutes {
     router.post('/auth/register', (req, res) =>
       usersController.register(req, res)
     );
+    router.post('/auth/login', (req, res) => usersController.login(req, res));
 
     return router;
   }
