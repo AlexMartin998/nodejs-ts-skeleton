@@ -9,11 +9,23 @@ export class IoService {
   private static _instance: IoService; // singleton
   private ioServer: SocketIOServer;
 
+  userSocketMap: any = {};
+
   private constructor(options: Options) {
     const { server } = options;
 
-    this.ioServer = new SocketIOServer(server);
+    this.ioServer = new SocketIOServer(server, {
+      cors: {
+        // origin: '*',
+        origin: ['http://localhost:3001'],
+        methods: ['GET', 'POST'],
+      },
+    });
     this.start(); // listen connections
+  }
+
+  static getUserSocketMap(receiverId: string) {
+    return IoService.instance.userSocketMap[receiverId] as any;
   }
 
   // init ioServer as singleton
@@ -32,7 +44,7 @@ export class IoService {
   }
 
   start() {
-    this.ioServer.on('connection', (socket) => {
+    this.ioServer.on('connection', socket => {
       console.log('Client connected');
 
       socket.on('disconnect', () => {

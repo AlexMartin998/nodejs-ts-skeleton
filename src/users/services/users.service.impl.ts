@@ -70,6 +70,12 @@ export class UsersServiceImpl implements UsersService {
     return !!(await this.userModel.findOne({ username }));
   }
 
+  async findAll(authUserId: string): Promise<any> {
+    return this.userModel.find({
+      _id: { $ne: authUserId },
+    });
+  }
+
   private calcImgUrl(username: string, gender: string): string {
     const boyProfilePic = `${this.baseGenPicUrl}/boy?username=${username}`;
     const girlProfilePic = `${this.baseGenPicUrl}/girl?username=${username}`;

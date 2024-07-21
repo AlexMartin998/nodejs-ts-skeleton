@@ -5,12 +5,14 @@ export class MessageDto {
     public readonly id: string,
     public readonly sender: string,
     public readonly receiver: string,
-    public readonly message: string
+    public readonly message: string,
+    public readonly createdAt: string,
+    public readonly updatedAt: string
   ) {}
 
   static create(props: Record<string, any>): MessageDto {
-    const { sender, receiver, message, _id } = props;
-    return new MessageDto(_id, sender, receiver, message);
+    const { sender, receiver, message, _id, createdAt, updatedAt } = props;
+    return new MessageDto(_id, sender, receiver, message, createdAt, updatedAt);
   }
 }
 

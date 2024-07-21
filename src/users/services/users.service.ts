@@ -8,4 +8,6 @@ export interface UsersService {
   renewToken(refreshToken: string): Promise<LoginResponseDto>;
 
   userExists(username: string): Promise<boolean>;
+
+  findAll(authUserId: string): Promise<any>;
 }

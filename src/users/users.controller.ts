@@ -28,4 +28,15 @@ export class UsersController {
       handleRestExceptions(error, res);
     }
   }
+
+  async findAll(req: Request, res: Response) {
+    try {
+      const authUserId = (req as any).user?.id;
+      console.log('authUserId', authUserId);
+      const users = await this.usersService.findAll(authUserId);
+      return res.status(200).json(users);
+    } catch (error) {
+      handleRestExceptions(error, res);
+    }
+  }
 }

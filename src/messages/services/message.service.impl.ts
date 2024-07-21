@@ -1,3 +1,4 @@
+import { ConversationModel } from '@/conversation/models';
 import {
   CreateMessageDto,
   MessageDto,
@@ -10,7 +11,56 @@ import { MessageModel } from '../models';
 import { MessageService } from './message.service';
 
 export class MessageServiceImpl implements MessageService {
-  constructor(private readonly messageModel: typeof MessageModel) {}
+  constructor(
+    private readonly messageModel: typeof MessageModel,
+    private readonly conversationModel: typeof ConversationModel
+  ) {}
+
+  async sendMessage(createDto: CreateMessageDto): Promise<MessageDto> {
+    const conversation = await this.handleConversation(
+      createDto.receiver,
+      createDto.sender
+    );
+
+    const newMessage = await this.messageModel.create(createDto);
+    conversation.messages.push(newMessage._id);
+    await conversation.save();
+
+    ///* socket.io logic ------------
+
+    return MessageDto.create(newMessage);
+  }
+
+  async getMessagesByParticipant(
+    userToChatId: string,
+    senderId: string
+  ): Promise<MessageDto[]> {
+    const conversation = await this.conversationModel
+      .findOne({
+        participants: { $all: [userToChatId, senderId] },
+      })
+      .populate('messages');
+    if (!conversation) return [];
+
+    return conversation.messages.map(message => MessageDto.create(message));
+  }
+
+  private async handleConversation(
+    receiverId: string,
+    senderId: string
+  ): Promise<any> {
+    let conversation = await this.conversationModel.findOne({
+      participants: { $all: [receiverId, senderId] },
+    });
+
+    if (!conversation) {
+      conversation = await this.conversationModel.create({
+        participants: [receiverId, senderId],
+      });
+    }
+
+    return conversation;
+  }
 
   async create(createDto: CreateMessageDto): Promise<any> {
     const message = await this.messageModel.create(createDto);

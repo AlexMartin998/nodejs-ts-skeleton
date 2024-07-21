@@ -2,6 +2,12 @@ import { CreateMessageDto, MessageDto, UpdMessageDto } from '@/messages/dtos';
 import { PaginationDto, PaginationResponseDto } from '@/shared/dtos';
 
 export interface MessageService {
+  sendMessage(createDto: CreateMessageDto): Promise<any>;
+  getMessagesByParticipant(
+    userToChatId: string,
+    senderId: string
+  ): Promise<MessageDto[]>;
+
   create(createDto: CreateMessageDto): Promise<MessageDto>;
 
   findAll(
