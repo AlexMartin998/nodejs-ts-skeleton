@@ -30,6 +30,11 @@ docker compose -f docker-compose.dev.yml down -v
 
   `pnpm add socket.io`
 
+  `pnpm add bcryptjs`
+  `pnpm add -D @types/bcryptjs`
+  `pnpm add jsonwebtoken`
+  `pnpm add -D @types/jsonwebtoken`
+
 
 - --- Iniciamos el    tsconfig.json
   - run:	`pnpm exec tsc --init --outDir dist/ --rootDir src`

@@ -1,10 +1,10 @@
 import { createServer } from 'http';
 
-import { envs } from './config';
+import { IoService } from './shared/application/wss.service';
+import { envs } from './shared/insfrastructure/config';
 import { MongoDB } from './shared/insfrastructure/persistence';
 import { AppRouter } from './shared/insfrastructure/server/router';
 import { Server } from './shared/insfrastructure/server/server';
-import { IoService } from './shared/application/wss.service';
 
 
 
