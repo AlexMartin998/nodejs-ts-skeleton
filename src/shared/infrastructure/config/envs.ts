@@ -8,8 +8,6 @@ export const envs = {
 
   // MongoDB
   MONGODB_URI: get('MONGODB_URI').required().asString(),
-  MONGO_USERNAME: get('MONGO_USERNAME').required().asString(),
-  MONGO_PASSWORD: get('MONGO_PASSWORD').required().asString(),
-  MONGO_NAME: get('MONGO_NAME').required().asString(),
+  MONGODB_NAME: get('MONGODB_NAME').required().asString(),
 
 };
