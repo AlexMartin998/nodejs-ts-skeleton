@@ -22,12 +22,7 @@ export class IoService {
         methods: ['GET', 'POST'],
       },
     });
-    this.start(); // listen connections
-  }
-
-  // map user to socket - chat room
-  static getUserSocketMap(receiverId: string) {
-    return IoService.instance.userSocketMap[receiverId];
+    this.start(); // listen connectionsA
   }
 
   // init ioServer as singleton
@@ -45,12 +40,34 @@ export class IoService {
     this.ioServer.emit(event, payload);
   }
 
+  // chat logic: map user to socket - chat room =====================
+  static getReceiverSocketId(receiverId: string) {
+    return IoService.instance.userSocketMap[receiverId];
+  }
+  sendOnlineUsers() {
+    this.sendMessage(
+      'getOnlineUsers',
+      Object.keys(IoService.instance.userSocketMap)
+    );
+  }
+  // end ================================================
+
   start() {
     this.ioServer.on('connection', socket => {
       console.log('Client connected');
 
+      // // chat logic ---------------
+      const userId = socket.handshake.query.userId; // react lo envia asi en query
+      if (userId) IoService.instance.userSocketMap[userId as any] = socket.id;
+
+      this.sendOnlineUsers(); // send online users to all clients
+
       socket.on('disconnect', () => {
         console.log('Client disconnected');
+
+        // chat logic ---------------
+        delete IoService.instance.userSocketMap[userId as any]; // remove user from map
+        this.sendOnlineUsers(); // send online users to all
       });
     });
   }

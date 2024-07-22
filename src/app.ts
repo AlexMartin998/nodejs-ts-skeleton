@@ -33,6 +33,9 @@ const main = async () => {
 
   server.setRoutes(AppRouter.routes); // after initialize WSS
 
+  // const instanceIo = IoService.instance;
+  // instanceIo.sendOnlineUsers();
+
   httpServer.listen(envs.PORT, () => {
     console.log(`Server is running on port ${envs.PORT}`);
   });
