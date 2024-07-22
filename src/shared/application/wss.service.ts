@@ -14,6 +14,7 @@ export class IoService {
   private constructor(options: Options) {
     const { server } = options;
 
+    // set up socket.io server - CORS
     this.ioServer = new SocketIOServer(server, {
       cors: {
         // origin: '*',
@@ -24,8 +25,9 @@ export class IoService {
     this.start(); // listen connections
   }
 
+  // map user to socket - chat room
   static getUserSocketMap(receiverId: string) {
-    return IoService.instance.userSocketMap[receiverId] as any;
+    return IoService.instance.userSocketMap[receiverId];
   }
 
   // init ioServer as singleton
