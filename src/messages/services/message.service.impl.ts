@@ -5,16 +5,17 @@ import {
   MessagePopulatedDto,
   UpdMessageDto,
 } from '@/messages/dtos';
+import { IoService } from '@/shared/application/wss.service';
 import { ResourceNotFoundError } from '@/shared/domain';
 import { PaginationDto, PaginationResponseDto } from '@/shared/dtos';
 import { MessageModel } from '../models';
 import { MessageService } from './message.service';
-import { IoService } from '@/shared/application/wss.service';
 
 export class MessageServiceImpl implements MessageService {
   constructor(
     private readonly messageModel: typeof MessageModel,
-    private readonly conversationModel: typeof ConversationModel
+    private readonly conversationModel: typeof ConversationModel,
+    private readonly wssIoService = IoService.instance
   ) {}
 
   async sendMessage(createDto: CreateMessageDto): Promise<MessageDto> {
@@ -28,10 +29,10 @@ export class MessageServiceImpl implements MessageService {
     await conversation.save();
 
     ///* socket.io logic ------------
-    const sioInstance = IoService.instance;
-    const receiverSocketId = sioInstance.userSocketMap[createDto.receiver];
+    const receiverSocketId =
+      this.wssIoService.userSocketMap[createDto.receiver];
     if (receiverSocketId) {
-      sioInstance.sendMessage('newMessage', newMessage);
+      this.wssIoService.sendMessage('newMessage', newMessage);
     }
 
     return MessageDto.create(newMessage);
