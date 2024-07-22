@@ -12,7 +12,15 @@ export class IoService {
   private constructor(options: Options) {
     const { server } = options;
 
-    this.ioServer = new SocketIOServer(server);
+    //* set up socket.io server - CORS
+    // this.ioServer = new SocketIOServer(server);
+    this.ioServer = new SocketIOServer(server, {
+      cors: {
+        origin: '*',
+        // origin: ['http://localhost:3001'],
+        methods: ['GET', 'POST'],
+      },
+    });
     this.start(); // listen connections
   }
 
@@ -32,7 +40,7 @@ export class IoService {
   }
 
   start() {
-    this.ioServer.on('connection', (socket) => {
+    this.ioServer.on('connection', socket => {
       console.log('Client connected');
 
       socket.on('disconnect', () => {
