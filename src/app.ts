@@ -1,7 +1,7 @@
-import { envs } from './config';
-import { MongoDB } from './shared/insfrastructure/persistence';
-import { AppRouter } from './shared/insfrastructure/server/router';
-import { Server } from './shared/insfrastructure/server/server';
+import { envs } from './shared/infrastructure/config';
+import { MongoDB } from './shared/infrastructure/persistence';
+import { AppRouter } from './shared/infrastructure/server/router';
+import { Server } from './shared/infrastructure/server/server';
 
 
 const main = async () => {

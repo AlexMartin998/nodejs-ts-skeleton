@@ -1,5 +1,5 @@
-import { envs } from '../src/config/envs';
 import { Server } from '../src/presentation/server';
+import { envs } from '../src/shared/infrastructure/config';
 
 // // vamos a mocker todo el Server | tb util para mockear librerias externas (react)
 jest.mock('../src/presentation/server.ts');

@@ -1,6 +1,7 @@
 coverage/
 notes*md
 .tmp
+__ts__/
 
 # compiled output
 /dist
